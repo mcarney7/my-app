@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Arrays</title>
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>	
+</head>
+
+<body>
+	<div id="root"></root>
+	<script type="text/babel">
+		
+		
+
+
+class RowCreator extends React.Component{
+
+	render(){
+
+			var student = this.props.item;
+
+			return <tr>
+					<td>{student.name}</td>
+					<td>{student.age}</td>
+					<td>{student.city}</td>
+					</tr>
+	}
+
+}
+
+var STUDENTS = [{name:"Mr Lou",age:40,city:"King Of GSU"},
+				{name:"Micheal Jordan",age:54,city:"King Of Jordans"},
+				{name:"Jimmy Walker",age:50,city:"King of Good Times"},
+				{name:"Bob Marley",age:30,city:"King of Reggae"},
+				{name:"T to the I",age:33,city:"King of ATL"},
+				{name:"Rick Rose",age:35,city:"King of Producing"},
+				{name:"Michel Jackson",age:30,city:"King of POP"}];
+
+class ListStudents extends React.Component{
+
+			constructor(props){
+				super(props);
+				this.state = {students:STUDENTS,
+							  studentsClone:STUDENTS
+				};
+			}
+
+			handleOnChange(event){
+
+				//alert(event.target.value);
+				var filterString = event.target.value;
+
+				var filteredStudents = [];
+
+				for(var student of this.state.students){
+					if(student.name.toLowerCase().indexOf(filterString.toLowerCase())>=0 || student.city.toLowerCase().indexOf(filterString.toLowerCase())>=0){
+						filteredStudents.push(student);
+					}
+				}
+				this.setState({studentsClone:filteredStudents});
+
+			}
+
+			render(){
+
+				return <div>
+					{this.props.title}
+					<br/>
+					<br/>
+					<input type="text" placeholder="Search by name or city" onChange={this.handleOnChange.bind(this)}/> 
+					<table>
+						<thead>
+							<tr>
+								<td>Name</td>
+								<td>Age</td>
+								<td>City</td>
+							</tr>
+						</thead>
+						<tbody>
+							{this.state.studentsClone.map(student => <RowCreator item={student}/>
+				 )}
+							
+						</tbody>
+					</table>
+				</div>
+			}
+		}
+		
+		ReactDOM.render(<ListStudents title="List Of the REAL GG'ees"/>,document.getElementById("root"));
+	</script>
+</body>
+</html>
